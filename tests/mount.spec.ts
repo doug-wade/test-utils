@@ -3,6 +3,7 @@ import { defineComponent } from 'vue'
 import { mount } from '../src'
 import DefinePropsAndDefineEmits from './components/DefinePropsAndDefineEmits.vue'
 import HelloFromVitestPlayground from './components/HelloFromVitestPlayground.vue'
+import ComponentWithCustomElement from './components/ComponentWithCustomElement.vue'
 
 describe('mount: general tests', () => {
   it('correctly handles component, throwing on mount', () => {
@@ -43,5 +44,18 @@ describe('mount: general tests', () => {
     })
     expect(wrapper.get('div').text()).toContain('Hello')
     expect(wrapper.get('div').classes()).toContain('end')
+  })
+
+  it('should mount a component with a custom element without error or warning', () => {
+    const warnSpy = vi.spyOn(console, 'warn')
+    const errorSpy = vi.spyOn(console, 'error')
+
+    const wrapper = mount(ComponentWithCustomElement)
+
+    expect(wrapper.html()).toBe(
+      '<customelement-example my-custom-attribute="my value"></customelement-example>'
+    )
+    expect(warnSpy).not.toHaveBeenCalled()
+    expect(errorSpy).not.toHaveBeenCalled()
   })
 })

@@ -6,7 +6,13 @@ import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('customelement-')
+        }
+      }
+    }),
     jsx(),
     // We need this plugin to test for stubbing a script setup component
     // imported by it.
